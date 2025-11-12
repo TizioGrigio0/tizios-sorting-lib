@@ -15,25 +15,26 @@ unsigned int bogo_sort(double *arr, unsigned int size);
 unsigned int bubble_sort(double *arr, unsigned int size);
 unsigned int recursive_bubble_sort(double *arr, unsigned int size);
 
+// Cocktail sort
+unsigned int cocktail_sort(double *arr, unsigned int size);
+unsigned int recursive_cocktail_sort(double *arr, unsigned int size);
+
 // Selection sort
 unsigned int selection_sort(double *arr, unsigned int size);
 unsigned int recursive_selection_sort(double *arr, unsigned int size);
 unsigned int selection_sort_using_max(double *arr, unsigned int size);
 unsigned int recursive_selection_sort_using_max(double *arr, unsigned int size);
 
-/*
-// Insertion sort // TODO
+// Insertion sort
 unsigned int insertion_sort(double *arr, unsigned int size);
 unsigned int recursive_insertion_sort(double *arr, unsigned int size);
 
+/*
 // Gnome sort // TODO
 unsigned int gnome_sort(double *arr, unsigned int size);
 unsigned int recursive_gnome_sort(double *arr, unsigned int size);
-
-// Cocktail sort // TODO
-unsigned int cocktail_sort(double *arr, unsigned int size);
-unsigned int recursive_cocktail_sort(double *arr, unsigned int size);
 */
+
 /* ADVANCED SORTING ALGORITHMS */
 /*
 // Merge sort // TODO

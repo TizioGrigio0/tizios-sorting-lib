@@ -10,6 +10,8 @@ We do not add extra steps++ outside those operations.
 ----------------------------------------
 */
 
+#include <iostream>
+using namespace std;
 
 unsigned int swap(double& n, double& m) {
     double hold = n;
@@ -71,6 +73,84 @@ unsigned int recursive_bubble_sort(double arr[], unsigned int size) {
     return steps + recursive_bubble_sort(arr, size-1);
 } // recursive_bubble_sort() closure
 
+// --------------------------------------------------------------------------------------------------------------------------------------------- //
+// Cocktail sort
+// best case: O(n)
+// worst case: O(n^2)
+// Returns the amount of steps taken to sort the array (comparisons + swaps)
+unsigned int cocktail_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+	bool swapped; // Remembers if we swapped during the current cycle
+	unsigned int high = size-1;
+	unsigned int low = 0;
+	do {
+		swapped = false; // Reset swapped
+
+		// Forward swap
+		for (unsigned int i=low; i<high; i++) {
+			steps++;
+			if (arr[i] > arr[i+1]) { // Bubble up
+				steps += swap(arr[i], arr[i+1]);
+				// We don't need to see if the forward swap did something, because the only one that is needed is the backward swap
+			} // if closure
+		} // forward swap closure
+		high--; // Decrease the upper limit since the last element is already in place
+
+		// Backward swap
+		for (unsigned int i=high; i>low; i--) {
+			steps++;
+			if (arr[i] < arr[i-1]) { // Bubble down
+				steps += swap(arr[i], arr[i-1]);
+				// If the backward swap changed something, it means that the array is still not sorted
+				swapped = true;
+			} // if closure
+		} // backward swap closure
+		low++; // Increase the lower limit since the first element is already in place
+
+	} while (swapped == true);
+
+	return steps;
+}
+
+// Recursive cocktail sort
+// best case: O(n)
+// worst case: O(n^2)
+// Returns the amount of steps taken to sort the array (comparisons + swaps)
+unsigned int recursive_cocktail_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+	bool swapped = false;
+
+	// Forward swap
+		for (unsigned int i=0; i<size; i++) {
+			steps++;
+			if (arr[i] > arr[i+1]) { // Bubble up
+				steps += swap(arr[i], arr[i+1]);
+				// We don't need to see if the forward swap did something, because the only one that is needed is the backward swap
+			} // if closure
+		} // forward swap closure
+
+		// Backward swap
+		for (unsigned int i=size-1; i>0; i--) { // We skip the last element because we just processed it in the forward swap
+			steps++;
+			if (arr[i] < arr[i-1]) { // Bubble down
+				steps += swap(arr[i], arr[i-1]);
+				// If the backward swap changed something, it means that the array is still not sorted
+				swapped = true;
+			} // if closure
+		} // backward swap closure
+
+	// If we didn't swap during the backward swap, then the array is already sorted
+	if (!swapped) return steps;
+
+	// We do another cycle where we move the start of array up by 1 and the end of the array down by 1 (basically replacing low/high with 0/size)
+	return steps + recursive_cocktail_sort((arr+1), size-1);
+}
+
+// --------------------------------------------------------------------------------------------------------------------------------------------- //
 // Selection sort
 // best case: O(n^2)
 // worst case: O(n^2)
@@ -224,4 +304,70 @@ unsigned int recursive_selection_sort_using_max(double arr[], unsigned int size)
 
     // We restart the function to process all the non-sorted elements (everything except the last element)
     return steps + recursive_selection_sort_using_max(arr, size-1);
+}
+
+// --------------------------------------------------------------------------------------------------------------------------------------------- //
+// Insertion sort
+// best case: O(n)
+// worst case: O(n^2)
+// Returns the amount of steps taken to sort the array (comparisons + swaps)
+unsigned int insertion_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+	// Process each element
+	for (unsigned int i=1; i<size; i++) { // Skip the first element because it's already in the sorted part of the array
+
+		double key = arr[i];
+
+		unsigned int j=i;
+
+		while (j > 0) { // Keep going down until we reach the start of the sorted array
+			steps++;
+			if (arr[j-1] > key) { // If we find an element bigger than key
+				arr[j] = arr[j-1]; // Bubble up it up to make a valid spot for key
+				steps++; // Count assignment
+				j--;
+			} else { // If we find an element smaller than key
+				break; // We found the spot for key, break the cycle.
+			}
+		}
+
+		arr[j] = key; // Place the element at the cell we just freed
+		steps++;
+
+	} // for i closure
+
+	return steps;
+}
+
+// Recursive insertion sort
+// best case: O(n)
+// worst case: O(n^2)
+// Returns the amount of steps taken to sort the array (comparisons + swaps)
+unsigned int recursive_insertion_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+	steps += recursive_insertion_sort(arr, size-1);
+
+	double key = arr[size-1];
+
+	unsigned int j=size-1;
+
+	while (j > 0) { // Keep going down until we reach the start of the sorted array
+			steps++;
+			if (arr[j-1] > key) { // If we find an element bigger than key
+				arr[j] = arr[j-1]; // Bubble up it up to make a valid spot for key
+				steps++; // Count assignment
+				j--;
+			} else { // If we find an element smaller than key
+				break; // We found the spot for key, break the cycle.
+			}
+		}
+
+	arr[j] = key; // Place the element at the cell we just freed
+	steps++;
+
+	return steps;
 }

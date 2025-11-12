@@ -37,6 +37,12 @@ int main(int argc, char *argv[]) {
     test_sort_function("Bubble Sort", bubble_sort, array, backup, size);
     test_sort_function("Bubble Sort (Recursive)", recursive_bubble_sort, array, backup, size);
 
+	cout << endl << " ------------------------------------------- " << endl;
+
+	// Order it with cocktail sort
+	test_sort_function("Cocktail Sort", cocktail_sort, array, backup, size);
+	test_sort_function("Cocktail Sort (Recursive)", cocktail_sort, array, backup, size);
+
     cout << endl << " ------------------------------------------- " << endl;
 
     // Order it with selection sort
@@ -46,6 +52,9 @@ int main(int argc, char *argv[]) {
     test_sort_function("Selection Sort (using max) (Recursive)", recursive_selection_sort_using_max, array, backup, size);
 
     cout << endl << " ------------------------------------------- " << endl;
+
+	test_sort_function("Insertion Sort", insertion_sort, array, backup, size);
+	test_sort_function("Recursive Insertion Sort", recursive_insertion_sort, array, backup, size);
 
     return 0;
 }
