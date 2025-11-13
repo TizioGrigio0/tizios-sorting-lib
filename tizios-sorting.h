@@ -5,7 +5,7 @@
 typedef unsigned int (*sort_function_p)(double[], unsigned int);
 
 // Support functions
-unsigned int swap(double& n, double& m);
+inline unsigned int swap(double& n, double& m);
 
 // The best sorting algorithm overall
 unsigned int bogo_sort(double *arr, unsigned int size);
@@ -29,18 +29,21 @@ unsigned int recursive_selection_sort_using_max(double *arr, unsigned int size);
 unsigned int insertion_sort(double *arr, unsigned int size);
 unsigned int recursive_insertion_sort(double *arr, unsigned int size);
 
-/*
-// Gnome sort // TODO
+// Shell sort
+unsigned int shell_sort(double *arr, unsigned int size);
+unsigned int recursive_shell_sort(double *arr, unsigned int size, unsigned int gap=(unsigned int)-1);
+
+// Gnome sort
 unsigned int gnome_sort(double *arr, unsigned int size);
-unsigned int recursive_gnome_sort(double *arr, unsigned int size);
-*/
+//unsigned int recursive_gnome_sort(double *arr, unsigned int size); // Won't do, feel free to open an issue with the solution if you want it here
 
 /* ADVANCED SORTING ALGORITHMS */
-/*
-// Merge sort // TODO
+
+// Merge sort
 unsigned int merge_sort(double *arr, unsigned int size);
 unsigned int recursive_merge_sort(double *arr, unsigned int size);
 
+/*
 // Quick sort // TODO
 unsigned int quick_sort(double *arr, unsigned int size);
 unsigned int recursive_quick_sort(double *arr, unsigned int size);
@@ -65,9 +68,6 @@ unsigned int recursive_bucket_sort(double *arr, unsigned int size);
 */
 /* OTHER */
 /*
-// Shell sort // TODO
-unsigned int shell_sort(double *arr, unsigned int size);
-unsigned int recursive_shell_sort(double *arr, unsigned int size);
 
 // Comb sort // TODO
 unsigned int comb_sort(double *arr, unsigned int size);

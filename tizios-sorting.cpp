@@ -13,7 +13,7 @@ We do not add extra steps++ outside those operations.
 #include <iostream>
 using namespace std;
 
-unsigned int swap(double& n, double& m) {
+inline unsigned int swap(double& n, double& m) {
     double hold = n;
     n = m;
     m = hold;
@@ -77,7 +77,7 @@ unsigned int recursive_bubble_sort(double arr[], unsigned int size) {
 // Cocktail sort
 // best case: O(n)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int cocktail_sort(double *arr, unsigned int size) {
 	unsigned int steps = 0;
 	if (size <= 1) return steps;
@@ -117,7 +117,7 @@ unsigned int cocktail_sort(double *arr, unsigned int size) {
 // Recursive cocktail sort
 // best case: O(n)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int recursive_cocktail_sort(double *arr, unsigned int size) {
 	unsigned int steps = 0;
 	if (size <= 1) return steps;
@@ -154,7 +154,7 @@ unsigned int recursive_cocktail_sort(double *arr, unsigned int size) {
 // Selection sort
 // best case: O(n^2)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int selection_sort(double arr[], unsigned int size) {
     unsigned int steps = 0;
     if (size <= 1) return steps;
@@ -195,7 +195,7 @@ unsigned int selection_sort(double arr[], unsigned int size) {
 // Recursive selection sort
 // best case: O(n^2)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int recursive_selection_sort(double arr[], unsigned int size) {
     unsigned int steps = 0;
     if (size <= 1) return steps; // Base case
@@ -230,7 +230,7 @@ unsigned int recursive_selection_sort(double arr[], unsigned int size) {
 // Selection sort (checks for max instead of min)
 // best case: O(n^2)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int selection_sort_using_max(double arr[], unsigned int size) {
     unsigned int steps = 0;
     if (size <= 1) return steps;
@@ -272,7 +272,7 @@ unsigned int selection_sort_using_max(double arr[], unsigned int size) {
 // Recursive selection sort (checks for max instead of min)
 // best case: O(n^2)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int recursive_selection_sort_using_max(double arr[], unsigned int size) {
     unsigned int steps = 0;
     if (size <= 1) return steps; // Base case
@@ -310,7 +310,7 @@ unsigned int recursive_selection_sort_using_max(double arr[], unsigned int size)
 // Insertion sort
 // best case: O(n)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int insertion_sort(double *arr, unsigned int size) {
 	unsigned int steps = 0;
 	if (size <= 1) return steps;
@@ -344,7 +344,7 @@ unsigned int insertion_sort(double *arr, unsigned int size) {
 // Recursive insertion sort
 // best case: O(n)
 // worst case: O(n^2)
-// Returns the amount of steps taken to sort the array (comparisons + swaps)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
 unsigned int recursive_insertion_sort(double *arr, unsigned int size) {
 	unsigned int steps = 0;
 	if (size <= 1) return steps;
@@ -368,6 +368,170 @@ unsigned int recursive_insertion_sort(double *arr, unsigned int size) {
 
 	arr[j] = key; // Place the element at the cell we just freed
 	steps++;
+
+	return steps;
+}
+
+// --------------------------------------------------------------------------------------------------------------------------------------------- //
+// Shell sort
+// best case: O(n log n)
+// worst case: O(n^(3/2))
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
+unsigned int shell_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+	unsigned int gap = size / 2;
+	while (gap > 0) {
+
+		// Process each element for the gap size
+		for (unsigned int i=gap; i<size; i++) {
+
+			double key = arr[i];
+			unsigned int j=i;
+
+			while (j >= gap && arr[j-gap] > key) { // Keep going down until we reach the start of the sorted array
+				steps++; // Count comparison (only arr[j-gap] > key, the other is not relevant)
+				// If we find an element bigger than key
+				arr[j] = arr[j-gap]; // Bubble up it up to make a valid spot for key
+				steps++; // Count assignment
+				j-=gap; // Go down by gap positions
+			}
+			steps++; // Count last comparison
+
+			arr[j] = key; // Place the element at the cell we just freed
+			steps++; // Count
+
+		} // for i closure
+
+		gap /= 2; // Halve the gap
+	}
+
+	return steps;
+}
+
+// Recursive Shell sort
+// best case: O(n log n)
+// worst case: O(n^(3/2))
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
+unsigned int recursive_shell_sort(double *arr, unsigned int size, unsigned int gap) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+	if (gap == 0) return steps; // Base case
+
+	if (gap > size) gap = size/2;
+
+	// Process each element for the gap size
+	for (unsigned int i=gap; i<size; i++) {
+
+		double key = arr[i];
+		unsigned int j=i;
+
+		while (j >= gap && arr[j-gap] > key) { // Keep going down until we reach the start of the sorted array
+			steps++; // Count comparison (only arr[j-gap] > key, the other is not relevant)
+			// If we find an element bigger than key
+			arr[j] = arr[j-gap]; // Bubble up it up to make a valid spot for key
+			steps++; // Count assignment
+			j-=gap; // Go down by gap positions
+		}
+		steps++; // Count last comparison
+
+		arr[j] = key; // Place the element at the cell we just freed
+		steps++; // Count
+
+	} // for i closure
+
+	return steps + recursive_shell_sort(arr, size, gap/2); // Halve the gap
+}
+
+// --------------------------------------------------------------------------------------------------------------------------------------------- //
+// Gnome sort
+// best case: O(n)
+// worst case: O(n^2)
+// Returns the amount of steps taken to sort the array (comparisons + assignments)
+unsigned int gnome_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+	unsigned int i=0;
+	while (i < size) {
+		if (i == 0) { // If there is no pot on the left, go right
+			i++;
+		} else {
+			steps++; // Count the comparison
+			if (arr[i-1] > arr[i]) { // If the left pot is bigger than the right pot, swap them and go back
+				steps += swap(arr[i-1], arr[i]); // Count the assignments in the swap
+				i--; // Go back 1 pot
+			} else { // If the left and the right pot are already in position, go forwards
+				i++; // Go forwards 1 pot
+			} // else closure
+		} // i != 0 closure
+	} // while closure
+
+	return steps;
+}
+
+//unsigned int recursive_gnome_sort(double *arr, unsigned int size) // Won't do, feel free to open an issue and attach a solution if you want it here
+
+// --------------------------------------------------------------------------------------------------------------------------------------------- //
+// Merge sort
+/*unsigned int merge_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 1) return steps;
+
+
+	return steps;
+}*/
+
+unsigned int recursive_merge_sort(double *arr, unsigned int size) {
+	unsigned int steps = 0;
+	if (size <= 2) return steps;
+
+	bool isSizeOdd = size % 2 == 1;
+	unsigned int halfSize = size/2;
+	unsigned int halfSizeOdd = size/2;
+	if (isSizeOdd) halfSizeOdd += 1;
+
+	cout << size << endl;
+
+	// Divide into 2 smaller arrays
+	steps += recursive_merge_sort(arr, halfSizeOdd);
+	steps += recursive_merge_sort(arr + halfSizeOdd, halfSize);
+
+	double* smallArr1 = arr;
+	double* smallArr2 = arr + halfSize;
+
+	// New array
+	double newArray[size];
+	unsigned int i=0, j=0;
+	for (unsigned int k=0; k<size; k++) {
+		if (i >= halfSize) { // If the first index already reached the end
+			// Fill the rest of the array with the content of the second array
+			newArray[k] = smallArr2[j];
+			j++;
+		} else if (j >= halfSizeOdd) { // Otherwise, if the second index already reached the end
+			// Fill the rest of the array with the content of the first array
+			newArray[k] = smallArr1[i];
+			i++;
+		}
+		else { // Otherwise, if both indices have not reached their max
+			if (smallArr1[i] <= smallArr2[j]) { // If the element of the first array is smaller or equal to the element of the second array
+				newArray[k] = smallArr1[i]; // Put the element of the first array in the new array
+				i++; // Go to the next element of the first array
+			} // if arr1[i] > arr2[j] closure
+			else { // If the element of the second array is smaller than the element of the first array
+				newArray[k] = smallArr2[j]; // Put the element of the second array in the new array
+				j++; // Go to the next element of the second array
+			} // else closure
+		} // if both indices have not reached their max closure
+
+	} // for closure
+
+	// Fill the position of the smaller arrays with the new ordered array
+	for (unsigned int i=0; i<size; i++) {
+		arr[i] = newArray[i];
+	}
 
 	return steps;
 }

@@ -37,6 +37,10 @@ int main(int argc, char *argv[]) {
     test_sort_function("Bubble Sort", bubble_sort, array, backup, size);
     test_sort_function("Bubble Sort (Recursive)", recursive_bubble_sort, array, backup, size);
 
+ 	cout << endl << " ------------------------------------------- " << endl;
+
+	test_sort_function("Gnome Sort", gnome_sort, array, backup, size);
+
 	cout << endl << " ------------------------------------------- " << endl;
 
 	// Order it with cocktail sort
@@ -56,6 +60,13 @@ int main(int argc, char *argv[]) {
 	test_sort_function("Insertion Sort", insertion_sort, array, backup, size);
 	test_sort_function("Recursive Insertion Sort", recursive_insertion_sort, array, backup, size);
 
+    cout << endl << " ------------------------------------------- " << endl;
+
+	test_sort_function("Shell Sort", shell_sort, array, backup, size);
+
+	cout << endl << " ------------------------------------------- " << endl;
+
+	test_sort_function("Merge Sort (Recursive)", recursive_merge_sort, array, backup, size);
     return 0;
 }
 
